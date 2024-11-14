@@ -102,11 +102,42 @@ class MedicalReminder(models.Model):
     def __str__(self):
         return f"Recordatorio {self.reminder_type} para {self.user.username}"
 
+class XRayDiagnosis(models.Model):
+    # Basic patient information
+    patient_name = models.CharField(max_length=100)
+    patient_age = models.IntegerField()
+    patient_gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')])
+    
+    # Diagnosis details
+    xray_type = models.CharField(max_length=50)  # e.g., Chest, Abdomen, etc.
+    diagnosis_summary = models.TextField()  # A brief summary of the diagnosis
+    detailed_findings = models.TextField()  # Detailed description of findings
+    date_of_diagnosis = models.DateField(auto_now_add=True)  # Date when the diagnosis was made
+    radiologist_name = models.CharField(max_length=100)  # Name of the radiologist who interpreted the X-ray
+
+    # Additional optional fields
+    comments = models.TextField(blank=True, null=True)  # Any additional comments
+    severity = models.CharField(max_length=20, choices=[
+        ('Mild', 'Mild'),
+        ('Moderate', 'Moderate'),
+        ('Severe', 'Severe'),
+    ], blank=True, null=True)  # Severity level
+
+    # Meta information
+    class Meta:
+        verbose_name = "X-ray Diagnosis"
+        verbose_name_plural = "X-ray Diagnoses"
+        ordering = ['-date_of_diagnosis']  # Orders by most recent diagnosis first
+
+    def __str__(self):
+        return f"{self.patient_name} - {self.xray_type} - {self.date_of_diagnosis}"
+
 
 admin.site.register(User)
 admin.site.register(MedicalRecord)
 admin.site.register(MedicalVideo)
-admin.site.register(Diagnosis)
+# admin.site.register(Diagnosis)
 admin.site.register(ProblemReport)
 admin.site.register(PregnancyTracking)
 admin.site.register(MedicalReminder)
+admin.site.register(XRayDiagnosis)

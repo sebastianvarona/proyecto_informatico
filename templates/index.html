@@ -4,17 +4,16 @@
 
 <section>
   <h1 class="text-4xl font-bold tracking-tight">Diagnosticos</h1>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-    <div class="bg-gray-100 p-8 rounded-lg aspect-video"></div>
-  </div>
+    <ul class="mt-4">
+        {% for item in diagnosis %}
+            <li class="py-4 border-b">
+                <a href="{% url 'diagnosis_detail' item.id %}" class="block text-blue-600 hover:underline">
+                    {{ item.patient_name }} - {{ item.xray_type }} - {{ item.date_of_diagnosis }}
+                </a>
+                <p class="text-sm text-gray-600">{{ item.diagnosis_summary|truncatewords:100 }}</p>
+            </li>
+        {% endfor %}
+    </ul>
 </section>
 
 {% endblock %}
